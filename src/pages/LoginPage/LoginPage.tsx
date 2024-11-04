@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    signInWithRedirect,
     GoogleAuthProvider,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    signInWithPopup,
 } from 'firebase/auth';
 import { auth } from '../../firebase';
 
@@ -47,9 +47,13 @@ export const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
 
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async () => {
         const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
+        try {
+            await signInWithPopup(auth, provider);
+        } catch (error) {
+            console.error('Error during Google Sign-In', error);
+        }
     };
 
     const handleEmailSignIn = async (event: React.FormEvent) => {

@@ -4,7 +4,11 @@ export const de: LanguageTranslation = {
     translation: {
         menu: {
             dwh: {
-                import: 'Import DWH shemas',
+                import: 'Import DWH',
+            },
+            user: {
+                logout: 'Logout',
+                login: 'Login',
             },
             file: {
                 file: 'Datei',

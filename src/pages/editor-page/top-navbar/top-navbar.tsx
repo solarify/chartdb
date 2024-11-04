@@ -39,9 +39,25 @@ import { frMetadata } from '@/i18n/locales/fr';
 import { hiMetadata } from '@/i18n/locales/hi';
 import { DiagramName } from './diagram-name';
 import { LastSaved } from './last-saved';
+
+import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../firebase';
+
 export interface TopNavbarProps {}
 
 export const TopNavbar: React.FC<TopNavbarProps> = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate('/login'); // Redirect to login page after logout
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
     const { clearDiagramData, deleteDiagram, updateDiagramUpdatedAt } =
         useChartDB();
     const {
@@ -205,11 +221,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
         <nav className="flex h-20 flex-col justify-between border-b px-3 md:h-12 md:flex-row md:items-center md:px-4">
             <div className="flex flex-1 justify-between gap-x-3 md:justify-normal">
                 <div className="flex py-[10px] font-primary md:items-center md:py-0">
-                    <a
-                        href="https://chartdb.io"
-                        className="cursor-pointer"
-                        rel="noreferrer"
-                    >
+                    <a href="#" className="cursor-pointer" rel="noreferrer">
                         <img
                             src={
                                 effectiveTheme === 'light'
@@ -234,7 +246,6 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
                             >
                                 {t('menu.dwh.import')}
                             </MenubarTrigger>
-                            <MenubarContent></MenubarContent>
                         </MenubarMenu>
                         <MenubarMenu>
                             <MenubarTrigger>
@@ -662,6 +673,16 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
                                     {t('menu.help.schedule_a_call')}
                                 </MenubarItem>
                             </MenubarContent>
+                        </MenubarMenu>
+                        <MenubarMenu>
+                            <MenubarTrigger
+                                className="text-red-400"
+                                onClick={async () => {
+                                    handleLogout();
+                                }}
+                            >
+                                {t('menu.user.logout')}
+                            </MenubarTrigger>
                         </MenubarMenu>
                     </Menubar>
                 </div>
