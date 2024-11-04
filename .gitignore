@@ -26,3 +26,6 @@ dist-ssr
 
 .env
 stats/
+
+# deployment
+.firebase/
