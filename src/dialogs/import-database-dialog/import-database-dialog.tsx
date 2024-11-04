@@ -46,6 +46,12 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
     }, [dialog.open]);
 
     const importDatabase = useCallback(async () => {
+        // DEBUGNAB
+        const scriptResult = await fetch('/result.json').then((response) =>
+            response.text()
+        );
+        console.log(scriptResult);
+
         const databaseMetadata: DatabaseMetadata =
             loadDatabaseMetadata(scriptResult);
 
@@ -298,7 +304,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
     }, [
         databaseEdition,
         databaseType,
-        scriptResult,
+        //scriptResult,
         tables,
         addRelationships,
         addTables,

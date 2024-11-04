@@ -41,6 +41,8 @@
   <img width='700px' src="./public/ChartDB.png">
 </p>
 
+# edits under DEBUGNAB
+
 ### 🎉 ChartDB
 
 ChartDB is a powerful, web-based database diagramming editor.

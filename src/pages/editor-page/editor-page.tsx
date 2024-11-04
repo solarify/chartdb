@@ -34,7 +34,6 @@ import { ExportImageProvider } from '@/context/export-image-context/export-image
 import { DialogProvider } from '@/context/dialog-context/dialog-provider';
 import { KeyboardShortcutsProvider } from '@/context/keyboard-shortcuts-context/keyboard-shortcuts-provider';
 import { Spinner } from '@/components/spinner/spinner';
-import { Helmet } from 'react-helmet-async';
 
 const OPEN_STAR_US_AFTER_SECONDS = 30;
 const SHOW_STAR_US_AGAIN_AFTER_DAYS = 1;
@@ -48,13 +47,8 @@ export const EditorMobileLayoutLazy = React.lazy(
 );
 
 const EditorPageComponent: React.FC = () => {
-    const {
-        loadDiagram,
-        diagramName,
-        currentDiagram,
-        schemas,
-        filteredSchemas,
-    } = useChartDB();
+    const { loadDiagram, currentDiagram, schemas, filteredSchemas } =
+        useChartDB();
     const { openSelectSchema, showSidePanel } = useLayout();
     const { resetRedoStack, resetUndoStack } = useRedoUndoStack();
     const { showLoader, hideLoader } = useFullScreenLoader();
@@ -216,13 +210,6 @@ const EditorPageComponent: React.FC = () => {
 
     return (
         <>
-            <Helmet>
-                <title>
-                    {diagramName
-                        ? `ChartDB - ${diagramName} Diagram | Visualize Database Schemas`
-                        : 'ChartDB - Create & Visualize Database Schema Diagrams'}
-                </title>
-            </Helmet>
             <section
                 className={`bg-background ${isDesktop ? 'h-screen w-screen' : 'h-dvh w-dvw'} flex select-none flex-col overflow-x-hidden`}
             >
