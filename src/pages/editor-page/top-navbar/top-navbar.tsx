@@ -216,7 +216,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
                                     ? ChartDBLogo
                                     : ChartDBDarkLogo
                             }
-                            alt="chartDB"
+                            alt="chartDB-modified-by-nablify"
                             className="h-4 max-w-fit"
                         />
                     </a>
