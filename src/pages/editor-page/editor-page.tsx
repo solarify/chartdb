@@ -35,9 +35,6 @@ import { DialogProvider } from '@/context/dialog-context/dialog-provider';
 import { KeyboardShortcutsProvider } from '@/context/keyboard-shortcuts-context/keyboard-shortcuts-provider';
 import { Spinner } from '@/components/spinner/spinner';
 
-const OPEN_STAR_US_AFTER_SECONDS = 30;
-const SHOW_STAR_US_AGAIN_AFTER_DAYS = 1;
-
 export const EditorDesktopLayoutLazy = React.lazy(
     () => import('./editor-desktop-layout')
 );
@@ -52,7 +49,7 @@ const EditorPageComponent: React.FC = () => {
     const { openSelectSchema, showSidePanel } = useLayout();
     const { resetRedoStack, resetUndoStack } = useRedoUndoStack();
     const { showLoader, hideLoader } = useFullScreenLoader();
-    const { openCreateDiagramDialog, openStarUsDialog } = useDialog();
+    const { openCreateDiagramDialog } = useDialog();
     const { diagramId } = useParams<{ diagramId: string }>();
     const { config, updateConfig } = useConfig();
     const navigate = useNavigate();
@@ -122,19 +119,9 @@ const EditorPageComponent: React.FC = () => {
         if (!currentDiagram?.id || githubRepoOpened) {
             return;
         }
-
-        if (
-            new Date().getTime() - starUsDialogLastOpen >
-            1000 * 60 * 60 * 24 * SHOW_STAR_US_AGAIN_AFTER_DAYS
-        ) {
-            const lastOpen = new Date().getTime();
-            setStarUsDialogLastOpen(lastOpen);
-            setTimeout(openStarUsDialog, OPEN_STAR_US_AFTER_SECONDS * 1000);
-        }
     }, [
         currentDiagram?.id,
         githubRepoOpened,
-        openStarUsDialog,
         setStarUsDialogLastOpen,
         starUsDialogLastOpen,
     ]);

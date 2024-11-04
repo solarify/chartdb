@@ -96,8 +96,7 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
 
     useEffect(() => {
         // DEBUGNAB
-        scriptResult = `{
-    }`;
+        scriptResult = `{`;
     }, [scriptResult]);
 
     const handleImport = useCallback(() => {
