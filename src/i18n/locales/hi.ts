@@ -3,6 +3,9 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 export const hi: LanguageTranslation = {
     translation: {
         menu: {
+            dwh: {
+                import: 'Import DWH shemas',
+            },
             file: {
                 file: 'फ़ाइल',
                 new: 'नया',
@@ -232,7 +235,6 @@ export const hi: LanguageTranslation = {
             continue: 'जारी रखें',
             import: 'आयात करें',
         },
-
         open_diagram_dialog: {
             title: 'आरेख खोलें',
             description: 'नीचे दी गई सूची से एक आरेख चुनें।',
@@ -295,6 +297,25 @@ export const hi: LanguageTranslation = {
                 },
                 import: 'आयात करें',
                 cancel: 'रद्द करें',
+            },
+        },
+
+        import_dwh_dialog: {
+            title: 'Import to Current Diagram',
+            override_alert: {
+                title: 'Import dwh',
+                content: {
+                    alert: 'Importing this diagram will affect existing tables and relationships.',
+                    new_tables:
+                        '<bold>{{newTablesNumber}}</bold> new tables will be added.',
+                    new_relationships:
+                        '<bold>{{newRelationshipsNumber}}</bold> new relationships will be created.',
+                    tables_override:
+                        '<bold>{{tablesOverrideNumber}}</bold> tables will be overwritten.',
+                    proceed: 'Do you want to proceed?',
+                },
+                import: 'Import',
+                cancel: 'Cancel',
             },
         },
 

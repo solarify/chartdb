@@ -5,6 +5,7 @@ import type { TableSchemaDialogProps } from '@/dialogs/table-schema-dialog/table
 import type { ImportDatabaseDialogProps } from '@/dialogs/import-database-dialog/import-database-dialog';
 import type { ExportSQLDialogProps } from '@/dialogs/export-sql-dialog/export-sql-dialog';
 import type { ExportImageDialogProps } from '@/dialogs/export-image-dialog/export-image-dialog';
+import type { ImportDWHDialogProps } from '@/dialogs/import-dwh-dialog/import-dwh-dialog';
 
 export interface DialogContext {
     // Create diagram dialog
@@ -32,6 +33,10 @@ export interface DialogContext {
         params: Omit<ImportDatabaseDialogProps, 'dialog'>
     ) => void;
     closeImportDatabaseDialog: () => void;
+
+    // Import database dialog
+    openImportDWHDialog: (params: Omit<ImportDWHDialogProps, 'dialog'>) => void;
+    closeImportDWHDialog: () => void;
 
     // Change table schema dialog
     openTableSchemaDialog: (
@@ -69,4 +74,6 @@ export const dialogContext = createContext<DialogContext>({
     closeStarUsDialog: emptyFn,
     openExportImageDialog: emptyFn,
     closeExportImageDialog: emptyFn,
+    openImportDWHDialog: emptyFn,
+    closeImportDWHDialog: emptyFn,
 });

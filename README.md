@@ -51,7 +51,7 @@ Now every route is protected by the login page. loggin in with google sso for no
 ## Automatic import of the dwh psql shemas
 
 Import the data by following these instructions on the UI :
--file
+- file
 - - Import Database
 - - - PostgreSQL
 - - - - Import

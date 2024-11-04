@@ -39,7 +39,6 @@ import { frMetadata } from '@/i18n/locales/fr';
 import { hiMetadata } from '@/i18n/locales/hi';
 import { DiagramName } from './diagram-name';
 import { LastSaved } from './last-saved';
-
 export interface TopNavbarProps {}
 
 export const TopNavbar: React.FC<TopNavbarProps> = () => {
@@ -50,6 +49,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
         openOpenDiagramDialog,
         openExportSQLDialog,
         openImportDatabaseDialog,
+        openImportDWHDialog,
         showAlert,
         openExportImageDialog,
     } = useDialog();
@@ -217,12 +217,25 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
                                     : ChartDBDarkLogo
                             }
                             alt="chartDB-modified-by-nablify"
-                            className="h-4 max-w-fit"
+                            className="h-6 max-w-fit"
                         />
                     </a>
                 </div>
                 <div>
                     <Menubar className="border-none shadow-none">
+                        <MenubarMenu>
+                            <MenubarTrigger
+                                onClick={() =>
+                                    openImportDWHDialog({
+                                        databaseType: DatabaseType.POSTGRESQL,
+                                        skipDialog: true,
+                                    })
+                                }
+                            >
+                                {t('menu.dwh.import')}
+                            </MenubarTrigger>
+                            <MenubarContent></MenubarContent>
+                        </MenubarMenu>
                         <MenubarMenu>
                             <MenubarTrigger>
                                 {t('menu.file.file')}

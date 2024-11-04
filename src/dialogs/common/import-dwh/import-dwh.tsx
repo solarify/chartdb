@@ -43,7 +43,7 @@ import {
 const errorScriptOutputMessage =
     'Invalid JSON. Please correct it or contact us at chartdb.io@gmail.com for help.';
 
-export interface ImportDatabaseProps {
+export interface ImportDWHProps {
     goBack?: () => void;
     onImport: () => void;
     onCreateEmptyDiagram?: () => void;
@@ -58,7 +58,7 @@ export interface ImportDatabaseProps {
     title: string;
 }
 
-export const ImportDatabase: React.FC<ImportDatabaseProps> = ({
+export const ImportDWH: React.FC<ImportDWHProps> = ({
     setScriptResult,
     goBack,
     scriptResult,
@@ -95,29 +95,14 @@ export const ImportDatabase: React.FC<ImportDatabaseProps> = ({
     }, []);
 
     useEffect(() => {
-        if (scriptResult.trim().length === 0) {
-            setErrorMessage('');
-            setShowCheckJsonButton(false);
-            return;
-        }
-
-        if (isStringMetadataJson(scriptResult)) {
-            setErrorMessage('');
-            setShowCheckJsonButton(false);
-        } else if (
-            scriptResult.trim().includes('{') &&
-            scriptResult.trim().includes('}')
-        ) {
-            setShowCheckJsonButton(true);
-            setErrorMessage('');
-        } else {
-            setErrorMessage(errorScriptOutputMessage);
-            setShowCheckJsonButton(false);
-        }
+        // DEBUGNAB
+        scriptResult = `{
+    }`;
     }, [scriptResult]);
 
     const handleImport = useCallback(() => {
         if (errorMessage.length === 0 && scriptResult.trim().length !== 0) {
+            console.log('scriptResult', scriptResult);
             onImport();
         }
     }, [errorMessage.length, onImport, scriptResult]);

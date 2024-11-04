@@ -2,7 +2,6 @@ import { Dialog, DialogContent } from '@/components/dialog/dialog';
 import { useDialog } from '@/hooks/use-dialog';
 import type { DatabaseType } from '@/lib/domain/database-type';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ImportDatabase } from '../common/import-database/import-database';
 import type { DatabaseEdition } from '@/lib/domain/database-edition';
 import type { DatabaseMetadata } from '@/lib/data/import-metadata/metadata-types/database-metadata';
 import { loadDatabaseMetadata } from '@/lib/data/import-metadata/metadata-types/database-metadata';
@@ -12,16 +11,18 @@ import { useRedoUndoStack } from '@/hooks/use-redo-undo-stack';
 import { Trans, useTranslation } from 'react-i18next';
 import { useReactFlow } from '@xyflow/react';
 import type { BaseDialogProps } from '../common/base-dialog-props';
+import { ImportDWH } from '../common/import-dwh/import-dwh';
 
-export interface ImportDatabaseDialogProps extends BaseDialogProps {
+export interface ImportDWHDialogProps extends BaseDialogProps {
     databaseType: DatabaseType;
+    skipDialog?: boolean;
 }
 
-export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
+export const ImportDWHDialog: React.FC<ImportDWHDialogProps> = ({
     dialog,
     databaseType,
 }) => {
-    const { closeImportDatabaseDialog, showAlert } = useDialog();
+    const { closeImportDWHDialog, showAlert } = useDialog();
     const {
         tables,
         relationships,
@@ -46,6 +47,11 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
     }, [dialog.open]);
 
     const importDatabase = useCallback(async () => {
+        // DEBUGNAB
+        const scriptResult = await fetch('/result.json').then((response) =>
+            response.text()
+        );
+
         const databaseMetadata: DatabaseMetadata =
             loadDatabaseMetadata(scriptResult);
 
@@ -204,14 +210,12 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
             const content = (
                 <>
                     <div className="!mb-2">
-                        {t(
-                            'import_database_dialog.override_alert.content.alert'
-                        )}
+                        {t('import_dwh_dialog.override_alert.content.alert')}
                     </div>
                     {(newTablesNumber ?? 0 > 0) ? (
                         <div className="!m-0 text-blue-500">
                             <Trans
-                                i18nKey="import_database_dialog.override_alert.content.new_tables"
+                                i18nKey="import_dwh_dialog.override_alert.content.new_tables"
                                 values={{
                                     newTablesNumber,
                                 }}
@@ -224,7 +228,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
                     {(newRelationshipsNumber ?? 0 > 0) ? (
                         <div className="!m-0 text-blue-500">
                             <Trans
-                                i18nKey="import_database_dialog.override_alert.content.new_relationships"
+                                i18nKey="import_dwh_dialog.override_alert.content.new_relationships"
                                 values={{
                                     newRelationshipsNumber,
                                 }}
@@ -237,7 +241,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
                     {tableIdsToRemove.length > 0 && (
                         <div className="!m-0 text-red-500">
                             <Trans
-                                i18nKey="import_database_dialog.override_alert.content.tables_override"
+                                i18nKey="import_dwh_dialog.override_alert.content.tables_override"
                                 values={{
                                     tablesOverrideNumber:
                                         tableIdsToRemove.length,
@@ -249,9 +253,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
                         </div>
                     )}
                     <div className="!mt-2">
-                        {t(
-                            'import_database_dialog.override_alert.content.proceed'
-                        )}
+                        {t('import_dwh_dialog.override_alert.content.proceed')}
                     </div>
                 </>
             );
@@ -294,15 +296,15 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
         resetRedoStack();
         resetUndoStack();
 
-        closeImportDatabaseDialog();
+        closeImportDWHDialog();
     }, [
         databaseEdition,
         databaseType,
-        scriptResult,
+        //scriptResult,
         tables,
         addRelationships,
         addTables,
-        closeImportDatabaseDialog,
+        closeImportDWHDialog,
         relationships,
         removeRelationships,
         removeTables,
@@ -318,7 +320,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
             {...dialog}
             onOpenChange={(open) => {
                 if (!open) {
-                    closeImportDatabaseDialog();
+                    closeImportDWHDialog();
                 }
             }}
         >
@@ -326,7 +328,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
                 className="flex w-[90vw] flex-col overflow-y-auto md:overflow-visible xl:min-w-[45vw]"
                 showClose
             >
-                <ImportDatabase
+                <ImportDWH
                     databaseType={databaseType}
                     databaseEdition={databaseEdition}
                     setDatabaseEdition={setDatabaseEdition}
@@ -334,7 +336,7 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
                     scriptResult={scriptResult}
                     setScriptResult={setScriptResult}
                     keepDialogAfterImport
-                    title={t('import_database_dialog.title', { diagramName })}
+                    title={t('Import DWH shemas', { diagramName })}
                 />
             </DialogContent>
         </Dialog>

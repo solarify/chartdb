@@ -11,6 +11,8 @@ import { BaseAlertDialog } from '@/dialogs/base-alert-dialog/base-alert-dialog';
 import { CreateRelationshipDialog } from '@/dialogs/create-relationship-dialog/create-relationship-dialog';
 import type { ImportDatabaseDialogProps } from '@/dialogs/import-database-dialog/import-database-dialog';
 import { ImportDatabaseDialog } from '@/dialogs/import-database-dialog/import-database-dialog';
+import type { ImportDWHDialogProps } from '@/dialogs/import-dwh-dialog/import-dwh-dialog';
+import { ImportDWHDialog } from '@/dialogs/import-dwh-dialog/import-dwh-dialog';
 import type { TableSchemaDialogProps } from '@/dialogs/table-schema-dialog/table-schema-dialog';
 import { TableSchemaDialog } from '@/dialogs/table-schema-dialog/table-schema-dialog';
 import { emptyFn } from '@/lib/utils';
@@ -72,6 +74,22 @@ export const DialogProvider: React.FC<React.PropsWithChildren> = ({
             [setOpenImportDatabaseDialog]
         );
 
+    // Import database dialog
+    const [openImportDWHDialog, setOpenImportDWHDialog] = useState(false);
+    const [importDWHDialogParams, setImportDWHDialogParams] = useState<
+        Omit<ImportDWHDialogProps, 'dialog'>
+    >({
+        databaseType: DatabaseType.GENERIC,
+    });
+    const openImportDWHDialogHandler: DialogContext['openImportDWHDialog'] =
+        useCallback(
+            ({ databaseType }) => {
+                setImportDWHDialogParams({ databaseType });
+                setOpenImportDWHDialog(true);
+            },
+            [setOpenImportDWHDialog]
+        );
+
     // Table schema dialog
     const [openTableSchemaDialog, setOpenTableSchemaDialog] = useState(false);
     const [tableSchemaDialogParams, setTableSchemaDialogParams] = useState<
@@ -120,6 +138,8 @@ export const DialogProvider: React.FC<React.PropsWithChildren> = ({
                 openImportDatabaseDialog: openImportDatabaseDialogHandler,
                 closeImportDatabaseDialog: () =>
                     setOpenImportDatabaseDialog(false),
+                openImportDWHDialog: openImportDWHDialogHandler,
+                closeImportDWHDialog: () => setOpenImportDWHDialog(false),
                 openTableSchemaDialog: openTableSchemaDialogHandler,
                 closeTableSchemaDialog: () => setOpenTableSchemaDialog(false),
                 openStarUsDialog: () => setOpenStarUsDialog(true),
@@ -143,6 +163,12 @@ export const DialogProvider: React.FC<React.PropsWithChildren> = ({
                 dialog={{ open: openImportDatabaseDialog }}
                 {...importDatabaseDialogParams}
             />
+
+            <ImportDWHDialog
+                dialog={{ open: openImportDWHDialog }}
+                {...importDWHDialogParams}
+            />
+
             <TableSchemaDialog
                 dialog={{ open: openTableSchemaDialog }}
                 {...tableSchemaDialogParams}
