@@ -45,6 +45,15 @@
 
 #### Modifications of the code 🔧 
 
+## setup
+Create a firebase project and configure a firebase Storage.
+
+Update the cors of this project with this command
+
+> gsutil cors set cors.json gs://solarify-dwh-lab.appspot.com
+
+
+
 ## SSO 🔑 
 Now every route is protected by the login page. loggin in with google sso for now.
 
