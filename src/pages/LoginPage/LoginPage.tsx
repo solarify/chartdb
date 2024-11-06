@@ -77,16 +77,15 @@ export const LoginPage: React.FC = () => {
 
     return (
         <div className="flex h-screen items-center justify-center bg-white">
-            <div className="m-auto max-w-md rounded-2xl bg-white p-10 text-center shadow-sm shadow-black backdrop-blur-sm">
+            <div className="m-auto max-w-md rounded-2xl border border-gray-300 bg-white p-10 text-center backdrop-blur-sm">
                 <img
                     src="logo.png"
                     alt="Solarify Logo"
                     className="mx-auto mb-6 scale-[0.6]"
                 />
-                <h1 className="mb-4 text-2xl font-semibold text-gray-800">
-                    Welcome to the Solarify datawharehouse
+                <h1 className="mb-10 text-2xl font-semibold text-gray-800">
+                    Solarify Datawarehouse
                 </h1>
-                <p className="mb-6 text-gray-600">Sign in to continue</p>
 
                 <div
                     className="flex cursor-pointer items-center justify-center rounded-full border border-gray-400 bg-white p-4 transition duration-200 hover:scale-105"
@@ -106,7 +105,7 @@ export const LoginPage: React.FC = () => {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="mb-4 w-full rounded border border-gray-400 p-3 text-base text-gray-700 focus:outline-none"
+                        className="mb-4 w-full rounded-3xl border border-gray-400 p-3 text-base text-gray-700 focus:outline-none"
                         required
                     />
                     <input
@@ -114,7 +113,7 @@ export const LoginPage: React.FC = () => {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="mb-4 w-full rounded border border-gray-400 p-3 text-base text-gray-700 focus:outline-none"
+                        className="mb-4 w-full rounded-3xl border border-gray-400 p-3 text-base text-gray-700 focus:outline-none"
                         required
                     />
                     {error && (

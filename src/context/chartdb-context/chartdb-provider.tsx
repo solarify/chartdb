@@ -70,10 +70,9 @@ export const ChartDBProvider: React.FC<
         }
 
         if (diagramName) {
-            document.title = `ChartDB - ${diagramName} Diagram | Visualize Database Schemas`;
+            document.title = `Solarify - ${diagramName} Diagram | Visualize Database Schemas`;
         } else {
-            document.title =
-                'ChartDB - Create & Visualize Database Schema Diagrams';
+            document.title = 'Solarify - Visualize Database Schema Diagrams';
         }
     }, [diagramName, skipTitleUpdate]);
 

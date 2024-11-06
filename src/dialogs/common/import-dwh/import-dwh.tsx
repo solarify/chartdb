@@ -11,8 +11,7 @@ import type { DatabaseType } from '@/lib/domain/database-type';
 import type { DatabaseEdition } from '@/lib/domain/database-edition';
 import { useTranslation } from 'react-i18next';
 import { useBreakpoint } from '@/hooks/use-breakpoint';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 import {
     fixMetadataJson,
     isStringMetadataJson,
@@ -43,12 +42,23 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
     title,
 }) => {
     const [errorMessage, setErrorMessage] = useState('');
+    const [infoMessage, setInfoMessage] = useState('');
+    const [fileListed, setfileListed] = useState(false);
+    let targetScript: string = '';
+    const [files, setFiles] = useState<{ name: string; url: string }[]>([]);
     const { t } = useTranslation();
     const { isSm: isDesktop } = useBreakpoint('sm');
     const [showCheckJsonButton] = useState(false);
 
+    const setTargetScript = useCallback((script: string) => {
+        targetScript = script;
+    }, []);
+    () => setTargetScript('');
+
     useEffect(() => {
-        fetchScriptResultFromStorage();
+        fetchFilesFromStorage();
+
+        setInfoMessage('Listing files...');
     }, []);
 
     const handleImport = useCallback(() => {
@@ -58,6 +68,7 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
     }, [errorMessage.length, onImport, scriptResult]);
 
     const handleCheckJson = useCallback(async () => {
+        setInfoMessage('Checking json result...');
         const fixedJson = await fixMetadataJson(scriptResult);
         if (isStringMetadataJson(fixedJson)) {
             scriptResult = fixedJson;
@@ -65,13 +76,45 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
         } else {
             setErrorMessage('json script result not valid');
         }
-    }, [scriptResult, setScriptResult]);
+    }, [scriptResult, setScriptResult, setInfoMessage]);
 
-    const fetchScriptResultFromStorage = useCallback(async () => {
-        setErrorMessage('Wait ');
+    const fetchFilesFromStorage = useCallback(async () => {
         try {
             const storage = getStorage();
-            const fileRef = ref(storage, 'result.json');
+            const directoryRef = ref(storage, '');
+            const fileList = await listAll(directoryRef);
+            setInfoMessage('Listing files...');
+            const filesData = await Promise.all(
+                fileList.items.map(async (itemRef) => {
+                    const url = await getDownloadURL(itemRef);
+                    return {
+                        name: itemRef.name,
+                        url,
+                    };
+                })
+            );
+
+            console.log('Files:', filesData);
+            setFiles(filesData);
+            setInfoMessage('Files downloaded');
+            setfileListed(true);
+        } catch (error) {
+            console.log('error:', error);
+            setErrorMessage('Error accessing Firebase Storage: ' + error);
+            setInfoMessage('');
+        }
+    }, [setErrorMessage, setFiles, setInfoMessage]);
+
+    const fetchScriptResultFromStorage = useCallback(async () => {
+        if (targetScript === '') {
+            console.log('Please select a file');
+            setErrorMessage('Please select a file');
+            return;
+        }
+        try {
+            setInfoMessage('Wait, dwh shemas is downloading...');
+            const storage = getStorage();
+            const fileRef = ref(storage, targetScript);
             const url = await getDownloadURL(fileRef);
             const response = await fetch(url);
             const data = await response.json();
@@ -94,7 +137,7 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
         return (
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
-                <DialogDescription className="hidden" />
+                <DialogDescription>Chose a file to import</DialogDescription>
             </DialogHeader>
         );
     }, [title]);
@@ -113,10 +156,60 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
                             </Button>
                         </DialogClose>
                     )}
+                    <div>
+                        {fileListed && (
+                            <div className="flex items-center ">
+                                <div className="mr-2 flex items-center gap-2">
+                                    <label
+                                        htmlFor="fileDropdown"
+                                        className="text-sm "
+                                    >
+                                        Select Version:
+                                    </label>
+                                    <select
+                                        id="fileDropdown"
+                                        onChange={(e) =>
+                                            setTargetScript(e.target.value)
+                                        }
+                                        className="rounded border bg-slate-700 p-2"
+                                    >
+                                        <option value="">
+                                            choose a version...
+                                        </option>
+                                        {files.map((file) => (
+                                            <option
+                                                key={file.name}
+                                                value={file.name}
+                                            >
+                                                {file.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={fetchScriptResultFromStorage}
+                                >
+                                    Import
+                                </Button>
+                                <DialogClose asChild></DialogClose>
+                            </div>
+                        )}
 
-                    <DialogClose asChild></DialogClose>
-
-                    <p className="text-red-600">{errorMessage}</p>
+                        <div className="mr-20 mt-5 flex space-x-2">
+                            {errorMessage && (
+                                <p className="rounded-lg bg-red-500 bg-opacity-30 p-2 text-red-600">
+                                    Error: {errorMessage}
+                                </p>
+                            )}
+                            {infoMessage && (
+                                <p className="rounded-lg bg-blue-500 bg-opacity-30 p-2 text-blue-600">
+                                    Info: {infoMessage}
+                                </p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </DialogFooter>
         );
@@ -130,6 +223,9 @@ export const ImportDWH: React.FC<ImportDWHProps> = ({
         showCheckJsonButton,
         goBack,
         t,
+        files,
+        setTargetScript,
+        fetchScriptResultFromStorage,
     ]);
 
     return (
