@@ -5,6 +5,7 @@ import type { TableSchemaDialogProps } from '@/dialogs/table-schema-dialog/table
 import type { ImportDatabaseDialogProps } from '@/dialogs/import-database-dialog/import-database-dialog';
 import type { ExportSQLDialogProps } from '@/dialogs/export-sql-dialog/export-sql-dialog';
 import type { ExportImageDialogProps } from '@/dialogs/export-image-dialog/export-image-dialog';
+import type { ImportDWHDialogProps } from '@/dialogs/import-dwh-dialog/import-dwh-dialog';
 
 export interface DialogContext {
     // Create diagram dialog
@@ -33,6 +34,10 @@ export interface DialogContext {
     ) => void;
     closeImportDatabaseDialog: () => void;
 
+    // Import database dialog
+    openImportDWHDialog: (params: Omit<ImportDWHDialogProps, 'dialog'>) => void;
+    closeImportDWHDialog: () => void;
+
     // Change table schema dialog
     openTableSchemaDialog: (
         params: Omit<TableSchemaDialogProps, 'dialog'>
@@ -40,8 +45,8 @@ export interface DialogContext {
     closeTableSchemaDialog: () => void;
 
     // Star us dialog
-    openStarUsDialog: () => void;
-    closeStarUsDialog: () => void;
+    //openStarUsDialog: () => void;
+    //closeStarUsDialog: () => void;
 
     // Export image dialog
     openExportImageDialog: (
@@ -65,8 +70,10 @@ export const dialogContext = createContext<DialogContext>({
     closeImportDatabaseDialog: emptyFn,
     openTableSchemaDialog: emptyFn,
     closeTableSchemaDialog: emptyFn,
-    openStarUsDialog: emptyFn,
-    closeStarUsDialog: emptyFn,
+    //openStarUsDialog: emptyFn,
+    //closeStarUsDialog: emptyFn,
     openExportImageDialog: emptyFn,
     closeExportImageDialog: emptyFn,
+    openImportDWHDialog: emptyFn,
+    closeImportDWHDialog: emptyFn,
 });

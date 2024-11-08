@@ -3,6 +3,13 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 export const de: LanguageTranslation = {
     translation: {
         menu: {
+            dwh: {
+                import: 'Import DWH',
+            },
+            user: {
+                logout: 'Logout',
+                login: 'Login',
+            },
             file: {
                 file: 'Datei',
                 new: 'Neu',
@@ -298,6 +305,25 @@ export const de: LanguageTranslation = {
                 },
                 import: 'Importieren',
                 cancel: 'Abbrechen',
+            },
+        },
+
+        import_dwh_dialog: {
+            title: 'Import to Current Diagram',
+            override_alert: {
+                title: 'Import dwh',
+                content: {
+                    alert: 'Importing this diagram will affect existing tables and relationships.',
+                    new_tables:
+                        '<bold>{{newTablesNumber}}</bold> new tables will be added.',
+                    new_relationships:
+                        '<bold>{{newRelationshipsNumber}}</bold> new relationships will be created.',
+                    tables_override:
+                        '<bold>{{tablesOverrideNumber}}</bold> tables will be overwritten.',
+                    proceed: 'Do you want to proceed?',
+                },
+                import: 'Import',
+                cancel: 'Cancel',
             },
         },
 

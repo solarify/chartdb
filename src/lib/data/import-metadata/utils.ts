@@ -1,10 +1,8 @@
-import { waitFor } from '@/lib/utils';
 import { isDatabaseMetadata } from './metadata-types/database-metadata';
 
 export const fixMetadataJson = async (
     metadataJson: string
 ): Promise<string> => {
-    await waitFor(1000);
     return metadataJson
         .trim()
         .replace(/^[^{]*/, '') // Remove everything before the first '{'

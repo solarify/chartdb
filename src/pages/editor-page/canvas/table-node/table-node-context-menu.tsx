@@ -18,7 +18,7 @@ export interface TableNodeContextMenuProps {
 export const TableNodeContextMenu: React.FC<
     React.PropsWithChildren<TableNodeContextMenuProps>
 > = ({ children, table }) => {
-    const { removeTable, readonly } = useChartDB();
+    const { removeTable } = useChartDB();
     const { openTableFromSidebar } = useLayout();
     const { t } = useTranslation();
     const { isMd: isDesktop } = useBreakpoint('md');
@@ -31,7 +31,7 @@ export const TableNodeContextMenu: React.FC<
         removeTable(table.id);
     }, [removeTable, table.id]);
 
-    if (!isDesktop || readonly) {
+    if (!isDesktop) {
         return <>{children}</>;
     }
     return (

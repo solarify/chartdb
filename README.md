@@ -41,6 +41,43 @@
   <img width='700px' src="./public/ChartDB.png">
 </p>
 
+### Solarify Modifications
+
+#### Modifications of the code 🔧 
+
+## setup
+Create a firebase project and configure a firebase Storage.
+
+Update the cors of this project with this command
+
+> gsutil cors set cors.json gs://solarify-dwh-lab.appspot.com
+
+
+
+## SSO 🔑 
+Now every route is protected by the login page. loggin in with google sso for now.
+
+## Automatic import of the dwh psql shemas
+
+Import the data by following these instructions on the UI :
+- file
+- - Import Database
+- - - PostgreSQL
+- - - - Import
+
+## How to import dwh data
+Data are stored under the public directory as a json file. To get the content of this json file, follow the following instructions:
+
+1. Load the data by following these instructions on the UI :
+-file
+- - Import Database
+- - - PostgreSQL
+
+2. Under the DB Client Tab you will find a script that you will run on your psql client.
+
+3. paste the content of this script under `/public/result.json`
+
+
 ### 🎉 ChartDB
 
 ChartDB is a powerful, web-based database diagramming editor.

@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+solarify-dwh-lab-2ce1c8d648e9.json
 
 node_modules
 dist
@@ -25,3 +26,7 @@ dist-ssr
 
 .env
 stats/
+
+# deployment
+.firebase/
+result.json

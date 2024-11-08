@@ -1,7 +1,7 @@
 import React from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { createBrowserRouter } from 'react-router-dom';
-import type { TemplatePageLoaderData } from './pages/template-page/template-page';
+import { AuthWrapper } from './components/AuthWrapper/AuthWrapper';
 
 const routes: RouteObject[] = [
     ...['', 'diagrams/:diagramId'].map((path) => ({
@@ -10,9 +10,12 @@ const routes: RouteObject[] = [
             const { EditorPage } = await import(
                 './pages/editor-page/editor-page'
             );
-
             return {
-                element: <EditorPage />,
+                element: (
+                    <AuthWrapper>
+                        <EditorPage />
+                    </AuthWrapper>
+                ),
             };
         },
     })),
@@ -23,7 +26,11 @@ const routes: RouteObject[] = [
                 './pages/examples-page/examples-page'
             );
             return {
-                element: <ExamplesPage />,
+                element: (
+                    <AuthWrapper>
+                        <ExamplesPage />
+                    </AuthWrapper>
+                ),
             };
         },
     },
@@ -35,7 +42,11 @@ const routes: RouteObject[] = [
                 './pages/templates-page/templates-page'
             );
             return {
-                element: <TemplatesPage />,
+                element: (
+                    <AuthWrapper>
+                        <TemplatesPage />
+                    </AuthWrapper>
+                ),
             };
         },
     },
@@ -47,7 +58,11 @@ const routes: RouteObject[] = [
                 './pages/templates-page/templates-page'
             );
             return {
-                element: <TemplatesPage />,
+                element: (
+                    <AuthWrapper>
+                        <TemplatesPage />
+                    </AuthWrapper>
+                ),
             };
         },
     },
@@ -59,50 +74,25 @@ const routes: RouteObject[] = [
                 './pages/templates-page/templates-page'
             );
             return {
-                element: <TemplatesPage />,
+                element: (
+                    <AuthWrapper>
+                        <TemplatesPage />
+                    </AuthWrapper>
+                ),
             };
         },
     },
     {
-        id: 'templates_templateSlug',
         path: 'templates/:templateSlug',
         async lazy() {
             const { TemplatePage } = await import(
                 './pages/template-page/template-page'
             );
             return {
-                element: <TemplatePage />,
-            };
-        },
-        loader: async ({ params }): Promise<TemplatePageLoaderData> => {
-            const { templates } = await import(
-                './templates-data/templates-data'
-            );
-            return {
-                template: templates.find(
-                    (template) => template.slug === params.templateSlug
-                ),
-            };
-        },
-    },
-    {
-        id: 'templates_load',
-        path: 'templates/clone/:templateSlug',
-        async lazy() {
-            const { CloneTemplatePage } = await import(
-                './pages/clone-template-page/clone-template-page'
-            );
-            return {
-                element: <CloneTemplatePage />,
-            };
-        },
-        loader: async ({ params }) => {
-            const { templates } = await import(
-                './templates-data/templates-data'
-            );
-            return {
-                template: templates.find(
-                    (template) => template.slug === params.templateSlug
+                element: (
+                    <AuthWrapper>
+                        <TemplatePage />
+                    </AuthWrapper>
                 ),
             };
         },
@@ -114,7 +104,20 @@ const routes: RouteObject[] = [
                 './pages/not-found-page/not-found-page'
             );
             return {
-                element: <NotFoundPage />,
+                element: (
+                    <AuthWrapper>
+                        <NotFoundPage />
+                    </AuthWrapper>
+                ),
+            };
+        },
+    },
+    {
+        path: '/login',
+        async lazy() {
+            const { LoginPage } = await import('./pages/LoginPage/LoginPage');
+            return {
+                element: <LoginPage />,
             };
         },
     },

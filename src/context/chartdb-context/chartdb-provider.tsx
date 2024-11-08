@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DBTable } from '@/lib/domain/db-table';
 import { deepCopy, generateId } from '@/lib/utils';
 import { randomColor } from '@/lib/colors';
@@ -28,10 +28,11 @@ import { storageInitialValue } from '../storage-context/storage-context';
 export interface ChartDBProviderProps {
     diagram?: Diagram;
     readonly?: boolean;
+    skipTitleUpdate?: boolean;
 }
 export const ChartDBProvider: React.FC<
     React.PropsWithChildren<ChartDBProviderProps>
-> = ({ children, diagram, readonly }) => {
+> = ({ children, diagram, readonly, skipTitleUpdate }) => {
     let db = useStorage();
     const events = useEventEmitter<ChartDBEvent>();
     const navigate = useNavigate();
@@ -62,6 +63,18 @@ export const ChartDBProvider: React.FC<
     if (readonly) {
         db = storageInitialValue;
     }
+
+    useEffect(() => {
+        if (skipTitleUpdate) {
+            return;
+        }
+
+        if (diagramName) {
+            document.title = `Solarify - ${diagramName} Diagram | Visualize Database Schemas`;
+        } else {
+            document.title = 'Solarify - Visualize Database Schema Diagrams';
+        }
+    }, [diagramName, skipTitleUpdate]);
 
     const schemas = useMemo(
         () =>

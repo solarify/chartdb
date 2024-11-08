@@ -13,8 +13,26 @@ export const colorOptions = [
     '#ff9f74', // A peachy orange.
 ];
 
+export const colorMapByTable: Record<string, string> = {
+    bill: '#8eb7ff', // A sky blue.
+    plant: '#ff9f74', // A peachy orange.
+    meta: '#c05dcf', // A rich purple.
+    user: '#b067e9', // A lighter purple.
+    users: '#b067e9', // A lighter purple.
+    role: '#ffe374', // A warm yellow.
+    roles: '#ffe374', // A warm yellow.
+    default: '#ffffff', // A lighter indigo.
+};
+
 export const randomColor = () => {
     return colorOptions[Math.floor(Math.random() * colorOptions.length)];
+};
+
+export const getTableColor = (tableName: string) => {
+    const startName = tableName.split('_')[0];
+    return startName in colorMapByTable
+        ? colorMapByTable[startName]
+        : colorMapByTable['default'];
 };
 
 export const viewColor = '#b0b0b0';

@@ -1,6 +1,6 @@
 import type { Diagram } from '@/lib/domain/diagram';
 import type { Template } from './templates-data';
-import { generateId } from '@/lib/utils';
+import { generateDiagramId, generateId } from '@/lib/utils';
 import type { DBTable } from '@/lib/domain/db-table';
 import type { DBField } from '@/lib/domain/db-field';
 import type { DBIndex } from '@/lib/domain/db-index';
@@ -8,8 +8,7 @@ import type { DBRelationship } from '@/lib/domain/db-relationship';
 import type { DBDependency } from '@/lib/domain/db-dependency';
 
 export const convertTemplateToNewDiagram = (template: Template): Diagram => {
-    // const diagramId = generateDiagramId();
-    const diagramId = template.diagram.id;
+    const diagramId = generateDiagramId();
 
     const idsMap = new Map<string, string>();
     template.diagram.tables?.forEach((table) => {

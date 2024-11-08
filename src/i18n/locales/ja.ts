@@ -3,6 +3,13 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 export const ja: LanguageTranslation = {
     translation: {
         menu: {
+            dwh: {
+                import: 'Import DWH',
+            },
+            user: {
+                logout: 'Logout',
+                login: 'Login',
+            },
             file: {
                 file: 'ファイル',
                 new: '新規',
@@ -280,7 +287,6 @@ export const ja: LanguageTranslation = {
             create: '作成',
             cancel: 'キャンセル',
         },
-
         import_database_dialog: {
             title: '現在のダイアグラムにインポート',
             override_alert: {
@@ -297,6 +303,24 @@ export const ja: LanguageTranslation = {
                 },
                 import: 'インポート',
                 cancel: 'キャンセル',
+            },
+        },
+        import_dwh_dialog: {
+            title: 'Import to Current Diagram',
+            override_alert: {
+                title: 'Import dwh',
+                content: {
+                    alert: 'Importing this diagram will affect existing tables and relationships.',
+                    new_tables:
+                        '<bold>{{newTablesNumber}}</bold> new tables will be added.',
+                    new_relationships:
+                        '<bold>{{newRelationshipsNumber}}</bold> new relationships will be created.',
+                    tables_override:
+                        '<bold>{{tablesOverrideNumber}}</bold> tables will be overwritten.',
+                    proceed: 'Do you want to proceed?',
+                },
+                import: 'Import',
+                cancel: 'Cancel',
             },
         },
 

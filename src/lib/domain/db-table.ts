@@ -2,7 +2,7 @@ import { createIndexesFromMetadata, type DBIndex } from './db-index';
 import { createFieldsFromMetadata, type DBField } from './db-field';
 import type { TableInfo } from '../data/import-metadata/metadata-types/table-info';
 import { createAggregatedIndexes } from '../data/import-metadata/metadata-types/index-info';
-import { materializedViewColor, viewColor, randomColor } from '@/lib/colors';
+import { getTableColor } from '@/lib/colors';
 import type { DBRelationship } from './db-relationship';
 import {
     decodeBase64ToUtf16LE,
@@ -123,11 +123,11 @@ export const createTablesFromMetadata = ({
             y: Math.random() * 800, // Placeholder Y
             fields,
             indexes: dbIndexes,
-            color: isMaterializedView
+            color: getTableColor(tableInfo.table) /*isMaterializedView
                 ? materializedViewColor
                 : isView
                   ? viewColor
-                  : randomColor(),
+                  : randomColor(),*/,
             isView: isView,
             isMaterializedView: isMaterializedView,
             createdAt: Date.now(),
